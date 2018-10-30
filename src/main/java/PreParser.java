@@ -1,7 +1,7 @@
 import org.telegram.telegrambots.api.objects.Message;
 
-public class Parser {
-    public Parser(){}
+public class PreParser {
+    public PreParser(){}
 
     public RequestInfo parse(Message message)
     {

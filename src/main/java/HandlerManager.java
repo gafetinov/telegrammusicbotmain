@@ -7,6 +7,7 @@ public class HandlerManager {
     private Dictionary<String, IHandler> stringIHandlerDictionary;
     private HandlerManager() {
         stringIHandlerDictionary = new Hashtable<>();
+        addNewHandler("/play", new YoutubeVideoLoadHandler());
     }
 
     public static HandlerManager getInstance() {
@@ -19,7 +20,7 @@ public class HandlerManager {
     public IHandler getHandler(RequestInfo requestInfo){
         IHandler handler = this.stringIHandlerDictionary.get(requestInfo.getCommand());
         if (handler == null)
-            return new CommandNotFoundHandler();
+            return new SimpleTextHandler("Command Nor Found :(");
         return handler;
     }
 }
