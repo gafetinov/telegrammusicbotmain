@@ -9,6 +9,7 @@ public class RequestInfo {
     private Dictionary<String, String> namedArgs;
     private String unnamedArg;
     private Message message;
+    private Bot bot;
 
     public RequestInfo(Message message)
     {
@@ -16,6 +17,7 @@ public class RequestInfo {
         namedArgs = new Hashtable<>();
         unnamedArg = null;
         command = null;
+        this.bot = bot;
     }
 
     public void addNamedArg(String key, String value) {
@@ -47,5 +49,11 @@ public class RequestInfo {
 
     public Message getMessage(){
         return message;
+    }
+    public Bot getBot(){return bot;}
+    public void setBot(Bot bot)
+    {
+        if(bot != null)
+            this.bot = bot;
     }
 }

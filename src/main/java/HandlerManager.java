@@ -4,23 +4,22 @@ import java.util.Hashtable;
 public class HandlerManager {
 
     private static HandlerManager ourInstance = new HandlerManager();
-    private Dictionary<String, IHandler> stringIHandlerDictionary;
+    private Dictionary<String, String> stringIHandlerDictionary;
+    private HandlerFactory handlerFactory;
     private HandlerManager() {
+        handlerFactory = new HandlerFactory();
         stringIHandlerDictionary = new Hashtable<>();
-        addNewHandler("/play", new YoutubeVideoLoadHandler());
+        addNewHandler("/play", YouTubeAudioLoadHandler.class.getName());
     }
 
     public static HandlerManager getInstance() {
         return ourInstance;
     }
 
-    public void addNewHandler(String command, IHandler handler) {
-        stringIHandlerDictionary.put(command,handler);
+    public void addNewHandler(String command,String handlerType) {
+        stringIHandlerDictionary.put(command,handlerType);
     }
     public IHandler getHandler(RequestInfo requestInfo){
-        IHandler handler = this.stringIHandlerDictionary.get(requestInfo.getCommand());
-        if (handler == null)
-            return new SimpleTextHandler("Command Nor Found :(");
-        return handler;
+        return handlerFactory.createHandler(this.stringIHandlerDictionary.get(requestInfo.getCommand()));
     }
 }

@@ -21,22 +21,26 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMsg(MessageInfo messageInfo)
+
+    public class Sender
     {
-        try {
-            switch (messageInfo.getMessageType()) {
-                case "sndmsg": {
-                    sendMessage((SendMessage) messageInfo.getSendObj());
-                    break;
-                }
-                case "sndaudio": {
-                    sendAudio((SendAudio) messageInfo.getSendObj());
-                }
+        public void SendAudio(MessageInfo messageInfo)
+        {
+            try {
+                sendAudio((SendAudio) messageInfo.getSendObj());
             }
+            catch (Exception ex) { }
         }
-        catch (Exception ex) {
-            System.out.println(ex);
+        public void SendText(MessageInfo messageInfo)
+        {
+            try {
+                sendMessage((SendMessage)messageInfo.getSendObj());
+            }
+            catch (Exception ex) { }
         }
+    }
+    public Sender getSender() {
+        return new Sender();
     }
 
     @Override
@@ -44,9 +48,9 @@ public class Bot extends TelegramLongPollingBot {
         Message message = update.getMessage();
         PreParser parser = new PreParser();
         RequestInfo requestInfo = parser.parse(message);
+        requestInfo.setBot(this);
         IHandler handler = HandlerManager.getInstance().getHandler(requestInfo);
-        MessageInfo messageInfo = handler.handle(requestInfo);
-        sendMsg(messageInfo);
+        handler.handle(requestInfo);
     }
     public String getBotUsername() {
         return "SonaMusicBot";

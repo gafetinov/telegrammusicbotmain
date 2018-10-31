@@ -1,4 +1,4 @@
-import sun.plugin2.message.Message;
+
 
 public class MessageInfo {
     private String messageType;

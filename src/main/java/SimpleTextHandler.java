@@ -7,11 +7,12 @@ public class SimpleTextHandler implements IHandler {
         this.answer = answer;
     }
 
-    public MessageInfo handle(RequestInfo requestInfo){
+    public void handle(RequestInfo requestInfo){
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(answer);
         sendMessage.setChatId(requestInfo.getMessage().getChatId());
-        return new MessageInfo("sndmsg",sendMessage);
+        MessageInfo messageInfo = new MessageInfo("sndmsg",sendMessage);
+        requestInfo.getBot().getSender().SendText(messageInfo);
     }
 
 }
