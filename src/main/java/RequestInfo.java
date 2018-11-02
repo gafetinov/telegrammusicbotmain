@@ -17,7 +17,6 @@ public class RequestInfo {
         namedArgs = new Hashtable<>();
         unnamedArg = null;
         command = null;
-        this.bot = bot;
     }
 
     public void addNamedArg(String key, String value) {

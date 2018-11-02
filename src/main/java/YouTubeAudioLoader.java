@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,18 +14,36 @@ import java.util.concurrent.TimeUnit;
 
 public class YouTubeAudioLoader implements IAudioLoader {
 
-    public YouTubeAudioLoader(String directory){
+    public class Comparator
+
+    {
+        public int compare (Object o1, Object o2){
+
+        if (((File) o1).lastModified() > ((File) o2).lastModified()) {
+            return -1;
+        } else if (((File) o1).lastModified() < ((File) o2).lastModified()) {
+            return +1;
+        } else {
+            return 0;
+        }
+    }
+    }
+
+}
+
+    public YouTubeAudioLoader(String directory) {
         directoryToLoad = new File(directory);
         directoryPath = directory;
         directoryToLoad.mkdir();
     }
+
     public File download(String link) {
-        String downloadPage = "https://tomp3.pro/" + link.replaceAll("(:/+|\\.|/|\\?|=)","-");
+        String downloadPage = "https://tomp3.pro/" + link.replaceAll("(:/+|\\.|/|\\?|=)", "-");
         WebDriver driver = browserSetup();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(downloadPage);
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        WebElement searchbutton  = driver.findElement((By.cssSelector("span.fa.fa-search")));
+        WebElement searchbutton = driver.findElement((By.cssSelector("span.fa.fa-search")));
         searchbutton.click();
         WebElement button = driver.findElement(By.cssSelector("li.v-dl-mp3"));
         button.click();
@@ -34,8 +53,7 @@ public class YouTubeAudioLoader implements IAudioLoader {
         downloadButton.click();
         try { // FIX FIX FIX
             TimeUnit.SECONDS.sleep(30);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
         driver.quit();
@@ -47,34 +65,20 @@ public class YouTubeAudioLoader implements IAudioLoader {
     private String directoryPath;
 
     private WebDriver browserSetup() {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/TheDAX/Desktop/TelegramBot/MusicBot/src/main/resources/drivers/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver");
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.prompt_for_download" ,false);
+        chromePrefs.put("download.prompt_for_download", false);
         chromePrefs.put("download.directory_upgrade", true);
-        chromePrefs.put("download.default_directory",  directoryPath);
+        chromePrefs.put("download.default_directory", directoryPath);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
         return new ChromeDriver(options);
     }
 
-    private File getLastModifiedFile()
-    {
+    private File getLastModifiedFile() {
         File[] audiofiles = directoryToLoad.listFiles();
-        Arrays.sort( audiofiles, new Comparator()
-        {
-            public int compare(Object o1, Object o2) {
-
-                if (((File)o1).lastModified() > ((File)o2).lastModified()) {
-                    return -1;
-                } else if (((File)o1).lastModified() < ((File)o2).lastModified()) {
-                    return +1;
-                } else {
-                    return 0;
-                }
-            }
-
-        });
+        Arrays.sort(audiofiles, );
         return audiofiles[0];
     }
 

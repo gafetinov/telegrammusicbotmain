@@ -13,32 +13,30 @@ public class Bot extends TelegramLongPollingBot {
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try{
+        try {
             telegramBotsApi.registerBot(new Bot());
-        }
-        catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
 
-    public class Sender
-    {
-        public void SendAudio(MessageInfo messageInfo)
-        {
+    public class Sender {
+        public void SendAudio(MessageInfo messageInfo) {
             try {
                 sendAudio((SendAudio) messageInfo.getSendObj());
+            } catch (Exception ex) {
             }
-            catch (Exception ex) { }
         }
-        public void SendText(MessageInfo messageInfo)
-        {
+
+        public void SendText(MessageInfo messageInfo) {
             try {
-                sendMessage((SendMessage)messageInfo.getSendObj());
+                sendMessage((SendMessage) messageInfo.getSendObj());
+            } catch (Exception ex) {
             }
-            catch (Exception ex) { }
         }
     }
+
     public Sender getSender() {
         return new Sender();
     }
@@ -52,6 +50,7 @@ public class Bot extends TelegramLongPollingBot {
         IHandler handler = HandlerManager.getInstance().getHandler(requestInfo);
         handler.handle(requestInfo);
     }
+
     public String getBotUsername() {
         return "SonaMusicBot";
     }
