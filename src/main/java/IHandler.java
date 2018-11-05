@@ -1,3 +1,4 @@
 public interface IHandler {
-    public void handle(RequestInfo requestInfo);
+
+  public void handle(RequestInfo requestInfo);
 }
